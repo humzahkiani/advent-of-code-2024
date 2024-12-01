@@ -5,38 +5,38 @@ def parse_number_lists_from_file(filepath)
 
   File.open(filepath, 'r') do |file|
     file.each_line do |line|
-      location_one,location_two = line.split("   ").map(&:to_i)
-      numbers_one.append(location_one)
-      numbers_two.append(location_two)
+      number_one,number_two = line.split("   ").map(&:to_i)
+      numbers_one.append(number_one)
+      numbers_two.append(number_two)
     end
   end
 
   return [numbers_one, numbers_two]
 end
 
-def compute_total_similarity_score(list_one, list_two)
-  num_to_freq_list_two = {}
+def compute_total_similarity_score(numbers_left, numbers_right)
+  num_to_freq_numbers_right = {}
 
-  list_two.each do |number|
-      if num_to_freq_list_two.key?(number)
-        num_to_freq_list_two[number] += 1
+  # Store frequencies of each number in right list
+  numbers_right.each do |number|
+      if num_to_freq_numbers_right.key?(number)
+        num_to_freq_numbers_right[number] += 1
       else 
-        num_to_freq_list_two[number] = 1
+        num_to_freq_numbers_right[number] = 1
       end
   end
 
-  total_similarity_score = 0
-
-  list_one.each do |number|
-    number_freq = num_to_freq_list_two.key?(number) ? num_to_freq_list_two[number] : 0
+  # Compute similarity score for each number in left list and sum
+  total_similarity_score = numbers_left.reduce(0) do |total_score, number|
+    number_freq = num_to_freq_numbers_right[number] || 0
     similarity_score = number * number_freq
-    total_similarity_score += similarity_score
+    total_score + similarity_score
   end
 
   total_similarity_score
 end
 
+numbers_left, numbers_right = parse_number_lists_from_file('./input.txt')
+total_similarity_score = compute_total_similarity_score(numbers_left, numbers_right)
 
-numbers_one, numbers_two = parse_number_lists_from_file('./input.txt')
-total_similarity_score = compute_total_similarity_score(numbers_one, numbers_two)
 puts total_similarity_score
