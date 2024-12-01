@@ -16,14 +16,11 @@ end
 
 def compute_total_similarity_score(numbers_left, numbers_right)
   num_to_freq_numbers_right = {}
+  num_to_freq_numbers_right.default = 0
 
   # Store frequencies of each number in right list
   numbers_right.each do |number|
-      if num_to_freq_numbers_right.key?(number)
-        num_to_freq_numbers_right[number] += 1
-      else 
-        num_to_freq_numbers_right[number] = 1
-      end
+      num_to_freq_numbers_right[number] += 1
   end
 
   # Compute similarity score for each number in left list and sum
