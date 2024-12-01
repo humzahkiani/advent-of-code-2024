@@ -1,6 +1,4 @@
 
-
-
 def compute_total_distance(list_one, list_two)
   num_locations = list_one.count
   total_distance = 0
@@ -30,7 +28,6 @@ def parse_location_lists_from_file(filepath)
 
   return [locations_one, locations_two]
 end
-
 
 locations_one, locations_two = parse_location_lists_from_file('./input.txt')
 locations_one.sort!
